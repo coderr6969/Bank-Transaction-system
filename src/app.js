@@ -6,9 +6,9 @@ const cookieParser = require("cookie-parser");
 // Configuring. the server- middlewares and APIs
 const app = express();
 
-app.use("cookieParser");
+app.use(express.json());
 
-app.use(" express.json");
+app.use(cookieParser());
 
 app.use("/api/auth ", authRouter);
 

@@ -31,7 +31,7 @@ async function userRegisterController(req, res) {
 
     // set token in cookies, npm i cookieparser
 
-    res.cookies(token);
+    res.cookie(token);
 
     res.status(201).json({
       user: {
@@ -44,4 +44,6 @@ async function userRegisterController(req, res) {
   }
 }
 
-module.exports = userRegisterController;
+module.exports = {
+  userRegisterController,
+};

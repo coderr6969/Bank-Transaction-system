@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema(
         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
         "Invalid e- mial address",
       ],
-      true: [unique, "E- mail already exists"],
+      unique: [true, "E- mail already exists"],
     },
     name: {
       type: String,
@@ -30,14 +30,14 @@ const userSchema = new mongoose.Schema(
   },
 );
 
-userSchema.pre(SVGAElement, async function (next) {
+userSchema.pre("save", async function (next) {
   if (!this.modified("password")) {
     return next();
   } else {
     const hash = await bcrypt.hash(this.password, 10);
     this.password = hash;
 
-    return next();
+    return;
   }
 });
 
@@ -45,6 +45,6 @@ userSchema.methods.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-const userModel = mongoose.model("usersSchema");
+const userModel = mongoose.model("user", userSchema);
 
 module.exports = userModel;
